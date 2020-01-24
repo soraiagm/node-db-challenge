@@ -4,124 +4,46 @@ const Projects = require('./project-model.js');
 
 const router = express.Router();
 
+// GET ALL PROJECTS  //
+router.get('/', (req, res) => {
+  Projects.find()
+  .then(projects => {
+    res.json(projects);
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to get projects' });
+  });
+});
 
-// IT'S WORKING //
-// router.get('/', (req, res) => {
-//   Schemes.find()
-//   .then(schemes => {
-//     res.json(schemes);
-//   })
-//   .catch(err => {
-//     res.status(500).json({ message: 'Failed to get schemes' });
-//   });
-// });
+// GET PROJECT BY ID //
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
 
-// // IT'S WORKING //
-// router.get('/:id', (req, res) => {
-//   const { id } = req.params;
+  Schemes.findById(id)
+  .then(scheme => {
+    if (scheme) {
+      res.json(scheme);
+    } else {
+      res.status(404).json({ message: 'Could not find project with given id.' })
+    }
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to get projects' });
+  });
+});
 
-//   Schemes.findById(id)
-//   .then(scheme => {
-//     if (scheme) {
-//       res.json(scheme);
-//     } else {
-//       res.status(404).json({ message: 'Could not find scheme with given id.' })
-//     }
-//   })
-//   .catch(err => {
-//     res.status(500).json({ message: 'Failed to get schemes' });
-//   });
-// });
+// ADD NEW PROJECT //
+router.post('/', (req, res) => {
+  const newProject = req.body;
 
+  Projects.add(newProject)
+  .then(project => {
+    res.status(201).json(project);
+  })
+  .catch (err => {
+    res.status(500).json({ message: 'Failed to create new project' });
+  });
+});
 
-
-// router.get('/:id/steps', (req, res) => {
-//   const { id } = req.params;
-
-//   Schemes.findSteps(id)
-//   .then(steps => {
-//     if (steps.length) {
-//       res.json(steps);
-//     } else {
-//       res.status(404).json({ message: 'Could not find steps for given scheme' })
-//     }
-//   })
-//   .catch(err => {
-//     res.status(500).json({ message: 'Failed to get steps' });
-//   });
-// });
-
-// // THIS IS WORKING BUT IT'S RETURNING ERROR MESSAGE //
-// router.post('/', (req, res) => {
-//   const schemeData = req.body;
-
-//   Schemes.add(schemeData)
-//   .then(scheme => {
-//     res.status(201).json(scheme);
-//   })
-//   .catch (err => {
-//     res.status(500).json({ message: 'Failed to create new scheme' });
-//   });
-// });
-
-// router.post('/:id/steps', (req, res) => {
-//   const stepData = req.body;
-//   const { id } = req.params; 
-
-//   Schemes.findById(id)
-//   .then(scheme => {
-//     if (scheme) {
-//       Schemes.addStep(stepData, id)
-//       .then(step => {
-//         res.status(201).json(step);
-//       })
-//     } else {
-//       res.status(404).json({ message: 'Could not find scheme with given id.' })
-//     }
-//   })
-//   .catch (err => {
-//     res.status(500).json({ message: 'Failed to create new step' });
-//   });
-// });
-
-
-// // IT'S WORKING //
-// router.put('/:id', (req, res) => {
-//   const { id } = req.params;
-//   const changes = req.body;
-
-//   Schemes.findById(id)
-//   .then(scheme => {
-//     if (scheme) {
-//       Schemes.update(changes, id)
-//       .then(updatedScheme => {
-//         res.json(updatedScheme);
-//       });
-//     } else {
-//       res.status(404).json({ message: 'Could not find scheme with given id' });
-//     }
-//   })
-//   .catch (err => {
-//     res.status(500).json({ message: 'Failed to update scheme' });
-//   });
-// });
-
-
-// // IT'S WORKING // 
-// router.delete('/:id', (req, res) => {
-//   const { id } = req.params;
-
-//   Schemes.remove(id)
-//   .then(deleted => {
-//     if (deleted) {
-//       res.json({ removed: deleted });
-//     } else {
-//       res.status(404).json({ message: 'Could not find scheme with given id' });
-//     }
-//   })
-//   .catch(err => {
-//     res.status(500).json({ message: 'Failed to delete scheme' });
-//   });
-// });
 
 module.exports = router;

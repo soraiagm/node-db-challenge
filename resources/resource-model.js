@@ -6,13 +6,14 @@ module.exports = {
 }
 
 function find() {
-   return db("tasks");
+   return db("resources");
 }
 
-function add(task) {
-    return db('tasks')
-      .insert(task)
+function add(resource) {
+    return db('resources')
+      .insert(resource)
       .then(ids => {
         return getById(ids[0]);
       });
   }
+
