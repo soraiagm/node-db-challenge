@@ -9,7 +9,7 @@ const server = express();
 server.use(express.json());
 server.use('/api/tasks', TaskRouter);
 server.use('/api/projects', ProjectRouter);
-server.use('/api/resources', ProjectRouter);
+server.use('/api/resources', ResourceRouter);
 
 server.get('/', (req, res) => {
     res.json({message: "Testing if my API is working"});

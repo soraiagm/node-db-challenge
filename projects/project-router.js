@@ -19,10 +19,10 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const { id } = req.params;
 
-  Schemes.findById(id)
-  .then(scheme => {
-    if (scheme) {
-      res.json(scheme);
+  Projects.findById(id)
+  .then(project => {
+    if (project) {
+      res.json(project);
     } else {
       res.status(404).json({ message: 'Could not find project with given id.' })
     }
@@ -35,10 +35,11 @@ router.get('/:id', (req, res) => {
 // ADD NEW PROJECT //
 router.post('/', (req, res) => {
   const newProject = req.body;
+  console.log('newProject', newProject);
 
   Projects.add(newProject)
   .then(project => {
-    res.status(201).json(project);
+    res.status(200).json(project);
   })
   .catch (err => {
     res.status(500).json({ message: 'Failed to create new project' });

@@ -7,9 +7,27 @@ const router = express.Router();
 
 // GET LIST OF TASKS //
 router.get('/', (req, res) => {
-  Schemes.find()
+  Tasks.find()
   .then(tasks => {
     res.json(tasks);
+  })
+  .catch(err => {
+    res.status(500).json({ message: 'Failed to get tasks' });
+  });
+});
+
+
+// GET TASK BY ID //
+router.get('/:id', (req, res) => {
+  const { id } = req.params;
+
+  Tasks.findById(id)
+  .then(task => {
+    if (task) {
+      res.json(task);
+    } else {
+      res.status(404).json({ message: 'Could not find task with given id.' })
+    }
   })
   .catch(err => {
     res.status(500).json({ message: 'Failed to get tasks' });
@@ -20,10 +38,11 @@ router.get('/', (req, res) => {
 // POST NEW TASK //
 router.post('/', (req, res) => {
   const newTask = req.body;
+  console.log('newTask', newTask);
 
-  Schemes.add(newTask)
+  Tasks.add(newTask)
   .then(task => {
-    res.status(201).json(task);
+    res.status(200).json(task);
   })
   .catch (err => {
     res.status(500).json({ message: 'Failed to create new task' });
