@@ -6,8 +6,18 @@ const router = express.Router();
 
 
 // GET LIST OF TASKS //
+// router.get('/', (req, res) => {
+//   Tasks.find()
+//   .then(tasks => {
+//     res.json(tasks);
+//   })
+//   .catch(err => {
+//     res.status(500).json({ message: 'Failed to get tasks' });
+//   });
+// });
+
 router.get('/', (req, res) => {
-  Tasks.find()
+  Tasks.findTasks()
   .then(tasks => {
     res.json(tasks);
   })
